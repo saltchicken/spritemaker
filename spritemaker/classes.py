@@ -10,6 +10,7 @@ class Spritemaker():
         self.image = self.remove_background(self.image)
         self.rectangles = self.extract_rectangles(self.image)
         self.sprites = []
+        self.extract_sprites()
     
     def read_image(self, image_path):
         image = cv2.imread(image_path, cv2.IMREAD_UNCHANGED)
@@ -56,10 +57,25 @@ class Spritemaker():
         plt.imshow(self.sprites[index])
         plt.show()
         
+    def create_sprite_sheet(self):
+        image = Image.new("RGBA", (512, 128))
+        for i in range(4):
+            sprite = Image.fromarray(self.sprites[i])
+            scale = sprite.width / 64
+            sprite = sprite.resize((int(sprite.width / scale), int(sprite.height / scale)))
+            x_padding = (128 - sprite.width) // 2
+            y_padding = (128 - sprite.height) // 2
+            Image.Image.paste(image, sprite, (i * 128 + x_padding, y_padding))
+        return image
+        
 if __name__ == "__main__":
     spritemaker = Spritemaker('FSS.png')
+    image = spritemaker.create_sprite_sheet()
+    image.save('saved.png')
+    # plt.imshow(image)
+    # plt.show()
     # spritemaker.show()
-    spritemaker.extract_sprites()
+    
     # spritemaker.show_sprite(0)
     # spritemaker.show_sprite(1)
     # spritemaker.show_sprite(2)
