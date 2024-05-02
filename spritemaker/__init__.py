@@ -6,4 +6,5 @@ def main():
     parser.add_argument('input', help='Input image')
     args = parser.parse_args()
     spritemaker = Spritemaker(args.input)
-    spritemaker.show()
+    spritemaker.create_sprite_sheet()
+    # spritemaker.show()
