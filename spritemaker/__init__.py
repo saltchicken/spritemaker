@@ -1,6 +1,5 @@
-from .classes import Spritemaker
-
 import argparse
+from .classes import Spritemaker
 
 def main():
     parser = argparse.ArgumentParser(description="Spritemaker commandline")
