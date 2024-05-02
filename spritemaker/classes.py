@@ -105,16 +105,6 @@ if __name__ == "__main__":
     spritemaker = Spritemaker('FSS.png')
     # spritemaker.animate_sprites()
     image = spritemaker.create_sprite_sheet('test')
-    # image.save('saved.png')
-    # json_string = spritemaker.create_sprite_json()
-    # with open('saved.json', 'w') as json_file:
-    #     json_file.write(json_string)
-    # plt.imshow(image)
-    # plt.show()
     # spritemaker.show()
-    
     # spritemaker.show_sprite(0)
-    # spritemaker.show_sprite(1)
-    # spritemaker.show_sprite(2)
-    # spritemaker.show_sprite(3)
     
