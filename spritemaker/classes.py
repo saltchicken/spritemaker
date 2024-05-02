@@ -78,10 +78,9 @@ class Spritemaker():
         image = Image.new("RGBA", (512, 128))
         for i in range(4):
             sprite = Image.fromarray(self.sprites[i])
-            scale = sprite.width / 64
+            scale = sprite.width / 64 # Scale image so that width is 64 pixels
             sprite = sprite.resize((int(sprite.width / scale), int(sprite.height / scale)))
-            x_padding = (128 - sprite.width) // 2
-            y_padding = (128 - sprite.height) // 2
+            x_padding, y_padding = (128 - sprite.width) // 2, (128 - sprite.height) // 2
             Image.Image.paste(image, sprite, (i * 128 + x_padding, y_padding))
         return image
         
