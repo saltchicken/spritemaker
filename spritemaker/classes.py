@@ -75,43 +75,40 @@ class Spritemaker():
         
         plt.show()
 
-    def create_sprite_sheet(self):
+    def create_sprite_sheet(self, output_name):
         image = Image.new("RGBA", (512, 128))
+        hitboxes = []
         for i in range(4):
             sprite = Image.fromarray(self.sprites[i])
             scale = sprite.width / 64 # Scale image so that width is 64 pixels
             sprite = sprite.resize((int(sprite.width / scale), int(sprite.height / scale)))
             x_padding, y_padding = (128 - sprite.width) // 2, (128 - sprite.height) // 2
             Image.Image.paste(image, sprite, (i * 128 + x_padding, y_padding))
-            # print(f"New Rectangle: "{x_padding}, {y_padding}})
-        return image
-    
-    def create_sprite_json(self):
-        hitboxes = []
-        for i, rect in enumerate(self.rectangles):
-            sprite = Image.fromarray(self.sprites[i])
-            scale = sprite.width / 64
-            x_padding, y_padding = (128 - int(sprite.width / scale)) // 2, (128 - int(sprite.height / scale)) // 2
-            hitbox = [x_padding, y_padding, int(rect[2] / scale), int(rect[3] / scale)]
+            image.save(f'{output_name}.png')
+            
+            # JSON info creation
+            hitbox = [x_padding, y_padding, int(self.rectangles[i][2] / scale), int(self.rectangles[i][3] / scale)]
             hitboxes.append(hitbox)
-        sprite = {
-            "width": 128,
-            "height": 128,
-            "count": 4,
-            "frames": 32,
-            "loop": True,
-            "hitbox": hitboxes
-        }
-        return json.dumps(sprite)
+            sprite_json = {
+                "width": 128,
+                "height": 128,
+                "count": 4,
+                "frames": 32,
+                "loop": True,
+                "hitbox": hitboxes
+            }
+            sprite_json_string = json.dumps(sprite_json)
+            with open(f'{output_name}.json', 'w') as json_file:
+                json_file.write(sprite_json_string)
         
 if __name__ == "__main__":
     spritemaker = Spritemaker('FSS.png')
     # spritemaker.animate_sprites()
-    image = spritemaker.create_sprite_sheet()
-    image.save('saved.png')
-    json_string = spritemaker.create_sprite_json()
-    with open('saved.json', 'w') as json_file:
-        json_file.write(json_string)
+    image = spritemaker.create_sprite_sheet('test')
+    # image.save('saved.png')
+    # json_string = spritemaker.create_sprite_json()
+    # with open('saved.json', 'w') as json_file:
+    #     json_file.write(json_string)
     # plt.imshow(image)
     # plt.show()
     # spritemaker.show()
