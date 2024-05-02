@@ -1,1 +1,1 @@
-from classes import Spritemaker
+from .classes import Spritemaker
