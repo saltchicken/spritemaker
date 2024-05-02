@@ -1,0 +1,1 @@
+from spritemaker import Spritemaker
