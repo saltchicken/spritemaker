@@ -4,6 +4,7 @@ import matplotlib.pyplot as plt
 from matplotlib.animation import FuncAnimation
 from PIL import Image
 import rembg
+import json
 
 class Spritemaker():
     def __init__(self, image_path):
@@ -82,13 +83,35 @@ class Spritemaker():
             sprite = sprite.resize((int(sprite.width / scale), int(sprite.height / scale)))
             x_padding, y_padding = (128 - sprite.width) // 2, (128 - sprite.height) // 2
             Image.Image.paste(image, sprite, (i * 128 + x_padding, y_padding))
+            # print(f"New Rectangle: "{x_padding}, {y_padding}})
         return image
+    
+    def create_sprite_json(self):
+        hitboxes = []
+        for i, rect in enumerate(self.rectangles):
+            sprite = Image.fromarray(self.sprites[i])
+            scale = sprite.width / 64
+            x_padding, y_padding = (128 - int(sprite.width / scale)) // 2, (128 - int(sprite.height / scale)) // 2
+            hitbox = [x_padding, y_padding, int(rect[2] / scale), int(rect[3] / scale)]
+            hitboxes.append(hitbox)
+        sprite = {
+            "width": 128,
+            "height": 128,
+            "count": 4,
+            "frames": 32,
+            "loop": True,
+            "hitbox": hitboxes
+        }
+        return json.dumps(sprite)
         
 if __name__ == "__main__":
     spritemaker = Spritemaker('FSS.png')
-    spritemaker.animate_sprites()
-    # image = spritemaker.create_sprite_sheet()
-    # image.save('saved.png')
+    # spritemaker.animate_sprites()
+    image = spritemaker.create_sprite_sheet()
+    image.save('saved.png')
+    json_string = spritemaker.create_sprite_json()
+    with open('saved.json', 'w') as json_file:
+        json_file.write(json_string)
     # plt.imshow(image)
     # plt.show()
     # spritemaker.show()
