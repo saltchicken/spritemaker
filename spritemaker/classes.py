@@ -1,6 +1,7 @@
 import cv2
 import numpy as np
 import matplotlib.pyplot as plt
+from matplotlib.animation import FuncAnimation
 from PIL import Image
 import rembg
 
@@ -57,6 +58,22 @@ class Spritemaker():
         plt.imshow(self.sprites[index])
         plt.show()
         
+    def animate_sprites(self):
+        fig, ax = plt.subplots()
+        plt.axis('off')
+        blank = np.zeros(self.sprites[0].shape)[:, :, :3]
+        im = plt.imshow(blank, cmap='gray')
+        
+        def update(frame):
+            frame_image = self.sprites[frame]
+            frame_image = frame_image[:, :, :3]
+            im.set_array(frame_image)
+            return im,
+        
+        ani = FuncAnimation(fig, update, frames=range(len(self.sprites)), interval=200, blit=True)
+        
+        plt.show()
+
     def create_sprite_sheet(self):
         image = Image.new("RGBA", (512, 128))
         for i in range(4):
@@ -70,8 +87,9 @@ class Spritemaker():
         
 if __name__ == "__main__":
     spritemaker = Spritemaker('FSS.png')
-    image = spritemaker.create_sprite_sheet()
-    image.save('saved.png')
+    spritemaker.animate_sprites()
+    # image = spritemaker.create_sprite_sheet()
+    # image.save('saved.png')
     # plt.imshow(image)
     # plt.show()
     # spritemaker.show()
