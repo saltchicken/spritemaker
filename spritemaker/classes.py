@@ -104,7 +104,7 @@ class Spritemaker():
 if __name__ == "__main__":
     spritemaker = Spritemaker('FSS.png')
     # spritemaker.animate_sprites()
-    image = spritemaker.create_sprite_sheet('test')
+    spritemaker.create_sprite_sheet('test')
     # spritemaker.show()
     # spritemaker.show_sprite(0)
     
