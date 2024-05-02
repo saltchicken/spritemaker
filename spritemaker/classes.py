@@ -5,10 +5,12 @@ from matplotlib.animation import FuncAnimation
 from PIL import Image
 import rembg
 import json
+import os
 
 class Spritemaker():
     def __init__(self, image_path):
-        self.image = self.read_image(image_path)
+        self.image_path = image_path
+        self.image = self.read_image(self.image_path)
         self.image = self.remove_background(self.image)
         self.rectangles = self.extract_rectangles(self.image)
         self.sprites = []
@@ -75,7 +77,16 @@ class Spritemaker():
         
         plt.show()
 
-    def create_sprite_sheet(self, output_name):
+    def create_sprite_sheet(self, output_name=None):
+        if not output_name:
+            output_name = os.path.splitext(os.path.basename(self.image_path))[0]
+        folder_path = f'./{output_name}'
+        if not os.path.exists(folder_path):
+            os.makedirs(folder_path)
+            print(f'Folder {folder_path} created')
+        else:
+            print(f'Folder {folder_path} already exists. Overwriting')
+        
         image = Image.new("RGBA", (512, 128))
         hitboxes = []
         for i in range(4):
@@ -84,7 +95,7 @@ class Spritemaker():
             sprite = sprite.resize((int(sprite.width / scale), int(sprite.height / scale)))
             x_padding, y_padding = (128 - sprite.width) // 2, (128 - sprite.height) // 2
             Image.Image.paste(image, sprite, (i * 128 + x_padding, y_padding))
-            image.save(f'{output_name}.png')
+            image.save(f'{os.path.join(folder_path, output_name)}.png')
             
             # JSON info creation
             hitbox = [x_padding, y_padding, int(self.rectangles[i][2] / scale), int(self.rectangles[i][3] / scale)]
@@ -98,13 +109,13 @@ class Spritemaker():
                 "hitbox": hitboxes
             }
             sprite_json_string = json.dumps(sprite_json)
-            with open(f'{output_name}.json', 'w') as json_file:
+            with open(f'{os.path.join(folder_path, output_name)}.json', 'w') as json_file:
                 json_file.write(sprite_json_string)
         
 if __name__ == "__main__":
     spritemaker = Spritemaker('FSS.png')
     # spritemaker.animate_sprites()
-    spritemaker.create_sprite_sheet('test')
+    spritemaker.create_sprite_sheet()
     # spritemaker.show()
     # spritemaker.show_sprite(0)
     
