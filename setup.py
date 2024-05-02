@@ -20,7 +20,7 @@ setup(
     packages=find_packages(),
     entry_points={
         'console_scripts': [
-            'spritemaker = main:main',
+            'spritemaker = spritemaker:main',
         ],
     },
     install_requires=['numpy']
