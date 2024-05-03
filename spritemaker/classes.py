@@ -93,7 +93,7 @@ class Spritemaker():
         sprite = sprite.resize((int(sprite.width / scale), int(sprite.height / scale)))
         x_padding, y_padding = (128 - sprite.width) // 2, (128 - sprite.height) // 2
         Image.Image.paste(image, sprite, (x_padding, y_padding))
-        image.save(f'{os.path.join(folder_path, output_name)}.png')
+        image.save(f'{os.path.join(folder_path, output_name)}_idle.png')
         
          # JSON info creation
         hitboxes = []
@@ -108,7 +108,7 @@ class Spritemaker():
             "hitbox": hitboxes
         }
         sprite_json_string = json.dumps(sprite_json)
-        with open(f'{os.path.join(folder_path, output_name)}.json', 'w') as json_file:
+        with open(f'{os.path.join(folder_path, output_name)}_idle.json', 'w') as json_file:
             json_file.write(sprite_json_string)
         
         
