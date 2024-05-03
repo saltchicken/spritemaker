@@ -7,4 +7,5 @@ def main():
     args = parser.parse_args()
     spritemaker = Spritemaker(args.input)
     spritemaker.create_sprite_sheet()
+    spritemaker.create_sprite_idle()
     # spritemaker.show()

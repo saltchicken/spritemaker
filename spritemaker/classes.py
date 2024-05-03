@@ -76,6 +76,42 @@ class Spritemaker():
         ani = FuncAnimation(fig, update, frames=range(len(self.sprites)), interval=200, blit=True)
         
         plt.show()
+        
+    def create_sprite_idle(self, output_name=None):
+        if not output_name:
+            output_name = os.path.splitext(os.path.basename(self.image_path))[0]
+        folder_path = f'./{output_name}_idle'
+        if not os.path.exists(folder_path):
+            os.makedirs(folder_path)
+            print(f'Folder {folder_path} created')
+        else:
+            print(f'Folder {folder_path} already exists. Overwriting')
+            
+        image = Image.new("RGBA", (128, 128))
+        sprite = Image.fromarray(self.sprites[0])
+        scale = sprite.width / 64 # Scale image so that width is 64 pixels
+        sprite = sprite.resize((int(sprite.width / scale), int(sprite.height / scale)))
+        x_padding, y_padding = (128 - sprite.width) // 2, (128 - sprite.height) // 2
+        Image.Image.paste(image, sprite, (x_padding, y_padding))
+        image.save(f'{os.path.join(folder_path, output_name)}.png')
+        
+         # JSON info creation
+        hitboxes = []
+        hitbox = [x_padding, y_padding, int(self.rectangles[0][2] / scale), int(self.rectangles[0][3] / scale)]
+        hitboxes.append(hitbox)
+        sprite_json = {
+            "width": 128,
+            "height": 128,
+            "count": 1,
+            "frames": 32,
+            "loop": True,
+            "hitbox": hitboxes
+        }
+        sprite_json_string = json.dumps(sprite_json)
+        with open(f'{os.path.join(folder_path, output_name)}.json', 'w') as json_file:
+            json_file.write(sprite_json_string)
+        
+        
 
     def create_sprite_sheet(self, output_name=None):
         if not output_name:
