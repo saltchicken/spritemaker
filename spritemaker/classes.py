@@ -113,31 +113,14 @@ class Spritemaker():
                 json_file.write(sprite_json_string)
                 
                 
-class Texturemaker():
-    def __init__(self, image_path):
-        self.image_path = image_path
-        self.image = self.read_image(self.image_path)
-        
-    def read_image(self, image_path):
-        return Image.open(image_path)
-    
-    def resize(self):
-        self.image = self.image.resize((64, 64))
-        
-    def save(self, output_name=None):
-        if not output_name:
-            output_name = os.path.splitext(os.path.basename(self.image_path))[0]
-        self.image.save(f'{output_name}.png')
+
         
         
         
 if __name__ == "__main__":
-    texturemaker = Texturemaker('grass.png')
-    texturemaker.resize()
-    texturemaker.save('grass_output')
+    pass
     # spritemaker = Spritemaker('FSS.png')
     # spritemaker.animate_sprites()
     # spritemaker.create_sprite_sheet()
     # spritemaker.show()
     # spritemaker.show_sprite(0)
-    
