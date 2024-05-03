@@ -6,7 +6,7 @@ from spritemaker import Spritemaker
 
 setup(
     name='spritemaker',
-    version='0.0.1',
+    version='0.0.2',
     author='John Eicher',
     author_email='john.eicher89@gmail.com',
     description='Testing installation of Package',
@@ -21,6 +21,7 @@ setup(
     entry_points={
         'console_scripts': [
             'spritemaker = spritemaker:main',
+            'texturemaker = texturemaker:main'
         ],
     },
     install_requires=['numpy']
