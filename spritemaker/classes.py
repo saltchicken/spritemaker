@@ -97,15 +97,19 @@ class Spritemaker():
         
          # JSON info creation
         hitboxes = []
-        hitbox = [x_padding, y_padding, int(self.rectangles[0][2] / scale), int(self.rectangles[0][3] / scale)]
+        hitbox = [x_padding, 100, int(self.rectangles[0][2] / scale), 20]
         hitboxes.append(hitbox)
+        visual_hitboxes = []
+        visual_hitbox = [x_padding, y_padding, int(self.rectangles[0][2] / scale), int(self.rectangles[0][3] / scale)]
+        visual_hitboxes.append(visual_hitbox)
         sprite_json = {
             "width": 128,
             "height": 128,
             "count": 1,
             "frames": 32,
             "loop": True,
-            "hitbox": hitboxes
+            "hitbox": hitboxes,
+            "visual_hitbox": visual_hitboxes
         }
         sprite_json_string = json.dumps(sprite_json)
         with open(f'{os.path.join(folder_path, output_name)}_idle.json', 'w') as json_file:
@@ -125,6 +129,7 @@ class Spritemaker():
         
         image = Image.new("RGBA", (512, 128))
         hitboxes = []
+        visual_hitboxes = []
         for i in range(4):
             sprite = Image.fromarray(self.sprites[i])
             scale = sprite.width / 64 # Scale image so that width is 64 pixels
@@ -134,15 +139,18 @@ class Spritemaker():
             image.save(f'{os.path.join(folder_path, output_name)}.png')
             
             # JSON info creation
-            hitbox = [x_padding, y_padding, int(self.rectangles[i][2] / scale), int(self.rectangles[i][3] / scale)]
+            hitbox = [x_padding, 100, int(self.rectangles[i][2] / scale), 20]
             hitboxes.append(hitbox)
+            visual_hitbox = [x_padding, y_padding, int(self.rectangles[i][2] / scale), int(self.rectangles[i][3] / scale)]
+            visual_hitboxes.append(visual_hitbox)
             sprite_json = {
                 "width": 128,
                 "height": 128,
                 "count": 4,
                 "frames": 32,
                 "loop": True,
-                "hitbox": hitboxes
+                "hitbox": hitboxes,
+                "visual_hitbox": visual_hitboxes
             }
             sprite_json_string = json.dumps(sprite_json)
             with open(f'{os.path.join(folder_path, output_name)}.json', 'w') as json_file:
